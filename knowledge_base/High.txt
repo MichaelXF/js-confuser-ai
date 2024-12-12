@@ -1,0 +1,43 @@
+Metadata: {"url": "https://js-confuser.com/docs/presets/high", "group": "Presets"}
+
+# High
+
+
+    ### High Preset
+
+    -> Option name: `"preset"`
+
+    -> Option value: `"high"`
+
+    ---{ header: "Preset.json", language: "json" }
+    {
+  "target": "node",
+  "preset": "high",
+  "calculator": true,
+  "compact": true,
+  "hexadecimalNumbers": true,
+  "controlFlowFlattening": 0.5,
+  "deadCode": 0.25,
+  "dispatcher": true,
+  "duplicateLiteralsRemoval": 0.75,
+  "flatten": true,
+  "globalConcealing": true,
+  "identifierGenerator": "randomized",
+  "minify": true,
+  "movedDeclarations": true,
+  "objectExtraction": true,
+  "opaquePredicates": 0.75,
+  "renameVariables": true,
+  "renameGlobals": true,
+  "shuffle": true,
+  "variableMasking": 0.75,
+  "stringConcealing": true,
+  "stringCompression": true,
+  "stringEncoding": true,
+  "stringSplitting": 0.75,
+  "astScrambler": true,
+  "pack": true
+}
+    ---
+
+    

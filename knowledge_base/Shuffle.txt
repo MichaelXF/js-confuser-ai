@@ -1,0 +1,84 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/shuffle", "group": "Options"}
+
+# Shuffle
+
+
+      
+### Shuffle
+
+Shuffles the initial order of arrays. The order is brought back to the original during runtime.
+
+-> Option name: `"shuffle"`
+-> Option values: `true/false/0-1`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Shuffle` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  shuffle: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+console.log([1,2,3,4,5,6,7,8,9,10]);
+---
+
+---
+
+
+    
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  shuffle: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+    

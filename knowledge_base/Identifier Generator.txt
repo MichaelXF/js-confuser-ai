@@ -1,0 +1,97 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/identifierGenerator", "group": "Options"}
+
+# Identifier Generator
+
+
+      
+### Identifier Generator
+
+Determines how variables are renamed.
+
+-> Option name: `"identifierGenerator"`
+-> Option values: `"hexadecimal"/"randomized"/"zeroWidth"/"mangled"/"number"/Function`
+
+---
+
+      
+
+    
+      ##### Modes
+
+      | Mode | Description | Example |
+      | `"hexadecimal"` | Random hex strings | _0xa8db5 |
+      | `"randomized"` | Random characters | w$Tsu4G |
+      | `"zeroWidth"` | Invisible characters | U+200D |
+      | `"mangled"` | Alphabet sequence | a, b, c |
+      | `"number"` | Numbered sequence | var_1, var_2 |
+      | `<function>` | Write a custom name generator | See Below |
+      
+---
+
+    
+
+    
+
+    
+#### Custom Implementation
+###### `options.identifierGenerator()`
+
+Customize the new variables name of the program. Returns a `string`.
+
+---{header: "Options.js"}
+module.exports = {
+  target: "node",
+
+  // Custom variable names
+  identifierGenerator: function () {
+    return "$" + Math.random().toString(36).substring(7);
+  },
+  renameVariables: true,
+};
+---
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  identifierGenerator: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): Yes 
+
+
+    
+
+    
+---
+
+##### See Also
+
+- [Rename Variables](./renameVariables)
+    

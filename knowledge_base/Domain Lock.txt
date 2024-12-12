@@ -1,0 +1,73 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/domainLock", "group": "Options"}
+
+# Domain Lock
+
+
+      
+### Domain Lock
+
+Ensures the script can only execute on the specified domain. Set the Counter Measures option to control what happens if violated.
+
+-> Option name: `"lock.domainLock"`
+-> Option values: `RegExp[]/string[]`
+
+---
+
+      
+
+    
+
+    
+
+    
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  lock: {
+    domainLock: [
+      'https://example.com',
+      'https://example.org',
+    ],
+  },
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): No
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+---
+
+##### See Also
+
+- [Countermeasures](/docs/options/countermeasures)
+    

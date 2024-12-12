@@ -1,0 +1,134 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/integrity", "group": "Options"}
+
+# Integrity
+
+
+      
+### Integrity
+
+Integrity ensures the source code is unchanged.
+
+-> Option name: `"lock.integrity"`
+-> Option values: `true/false/0-1/Function`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Integrity` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  lock: {
+    integrity: true,
+  },
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+      function protectedFunction(){
+        console.log("This code is protected");
+      }
+        
+      protectedFunction(); // "This code is protected"
+      
+---
+
+---
+
+
+    
+      #### How is this possible?
+
+JavaScript has a sneaky method to view the source code any function. Calling `Function.toString()` on any function reveals the raw source code.
+
+
+Integrity uses a hashing algorithm on the obfuscated code during the obfuscation-phase. The obfuscator then places checksum functions throughout the output code to verify it's unchanged at runtime.
+
+
+An additional RegEx is utilized to remove spaces, newlines, braces, and commas. This ensures the hash isn't too sensitive.
+
+#### Tamper Detection
+
+If tampering is detected, the `lock.countermeasures` function will be invoked. If you don't provide a `lock.countermeasures` function, the default behavior is to crash the program.
+
+
+[Learn more about the countermeasures function](Countermeasures.md)
+      
+---
+
+    
+#### Custom Implementation
+###### `options.lock.integrity(fnName)`
+
+Control which functions are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `fnName` | `string` | The function name proposed to be changed. |
+
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  lock: {
+    integrity: true,
+  },
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): No
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    ---
+
+      #### Potential Issues
+
+If you decide to use Integrity, consider the following:
+
+1. Any build-tools must not modify the locked code. The code can't be changed after JS-Confuser is applied.
+2. `Function.toString()` functionality may not be enabled in your environment (bytenode)
+      
+
+    
+---
+
+##### See Also
+
+- [Countermeasures](/docs/options/countermeasures)
+    

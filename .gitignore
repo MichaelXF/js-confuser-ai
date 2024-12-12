@@ -1,0 +1,82 @@
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore environment and dependency files
+.env
+.env.*
+*.env
+*.venv
+*.virtualenv
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Ignore compiled files
+*.so
+*.pyd
+*.dll
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Ignore log files
+*.log
+*.out
+*.err
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore FastAPI-related temporary files
+uvicorn*.log
+logs/
+*.db
+sqlite.db
+db.sqlite3
+
+# Ignore Docker-related files (if using Docker)
+docker-compose.override.yml
+*.tar
+*.bak
+
+# Ignore test coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache/
+pytest_cache/
+.tox/
+
+# Ignore static and media files (if applicable)
+staticfiles/
+media/
+
+# Ignore build and distribution files
+build/
+dist/
+*.egg-info/
+.installed.cfg
+.eggs/
+
+# Ignore mypy and other type checker outputs
+.mypy_cache/
+dmypy.json
+dmypy.log
+
+# Ignore bandit security scan outputs
+.bandit/
+
+# Ignore profiling data
+*.prof
+*.profraw

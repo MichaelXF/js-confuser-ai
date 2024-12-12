@@ -1,0 +1,159 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/renameVariables", "group": "Options"}
+
+# Rename Variables
+
+
+      
+### Rename Variables
+
+Determines if variables should be renamed.
+
+-> Option name: `"renameVariables"`
+-> Option values: `true/false/Function`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Rename Variables` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+var twoSum = function (nums, target) {
+  var hash = {};
+  var len = nums.length;
+  for (var i = 0; i < len; i++) {
+    if (nums[i] in hash) return [hash[nums[i]], i];
+    hash[target - nums[i]] = i;
+  }
+  return [-1, -1];
+};
+
+var test = function () {
+  var inputNums = [2, 7, 11, 15];
+  var inputTarget = 9;
+  var expectedResult = [0, 1];
+
+  var actualResult = twoSum(inputNums, inputTarget);
+  ok(actualResult[0] === expectedResult[0]);
+  ok(actualResult[1] === expectedResult[1]);
+};
+
+test();
+---
+
+---
+
+
+    
+      #### Access the renamed variable
+
+The comment syntax `/* @js-confuser-var */ "varName"` provides a method to access variable mappings. This is especially useful for `eval()` scenarios where you want preserve the mapping.
+
+---js
+// Input
+var message = "Hello world!";
+eval(`console.log(${ /* @js-confuser-var */ "message"  })`);
+
+console.log("message was renamed to", /* @js-confuser-var */ "message");
+
+// Output
+var nSgZyJf = "Hello world!";
+eval(`console.log(nSgZyJf)`) // "Hello world!"
+console["log"]("message was renamed to", "nSgZyJf") // message was renamed to nSgZyJf
+---
+
+Even if `Rename Variables` is disabled, the comment `/* @js-confuser-var */` will still be removed. (The original name will be returned as a string)
+
+#### Never rename a variable
+
+The prefix `__NO_JS_CONFUSER_RENAME__` disables renaming a certain variable. This can be useful for debugging the obfuscator.
+
+---js
+// Input
+var __NO_JS_CONFUSER_RENAME__message1 = "My first message"
+var message2 = "My other message"
+
+console.log(__NO_JS_CONFUSER_RENAME__message1)
+console.log(message2)
+
+// Output
+var __NO_JS_CONFUSER_RENAME__message1 = "My first message";
+var jRLf713 = "My other message";
+
+console.log(__NO_JS_CONFUSER_RENAME__message1),
+console.log(jRLf713)
+---
+      
+---
+
+    
+#### Custom Implementation
+###### `options.renameVariables(varName)`
+
+Control which variable names are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `varName` | `string` | The variable name proposed to be changed. |
+---{header: "Options.js"}
+module.exports = {
+  target: "node",
+
+  // Disable renaming a certain variable
+  renameVariables: (varName) => varName != "jQuery",
+};
+---
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  renameVariables: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): Yes 
+
+
+    
+
+    
+    

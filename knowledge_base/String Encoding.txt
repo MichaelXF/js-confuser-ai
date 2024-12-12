@@ -1,0 +1,94 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/stringEncoding", "group": "Options"}
+
+# String Encoding
+
+
+      
+### String Encoding
+
+String Encoding transforms a string into an encoded representation.
+
+-> Option name: `"stringEncoding"`
+-> Option values: `true/false/0-1/Function`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `String Encoding` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  stringEncoding: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+var str = "Hello, World!";
+console.log(str);
+---
+
+---
+
+
+    
+
+    
+#### Custom Implementation
+###### `options.stringEncoding(strValue)`
+
+Control which strings are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `strValue` | `string` | The string proposed to be encoded. |
+
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  stringEncoding: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+    

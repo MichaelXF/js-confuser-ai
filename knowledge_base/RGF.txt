@@ -1,0 +1,128 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/rgf", "group": "Options"}
+
+# RGF
+
+
+      
+### RGF
+
+RGF (Runtime-Generated-Functions) creates executable code from strings.
+        - **This can break your code.**
+        - **Due to the security concerns of arbitrary code execution, you must enable this yourself.**
+        - The arbitrary code is also obfuscated.
+
+-> Option name: `"rgf"`
+-> Option values: `true/false/0-1/Function`
+<br>
+> [!WARNING]
+> Requires Eval
+> The obfuscated code will contain unsafe eval expressions.
+> The code will not work properly in [environments that have disabled eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#unsafe_eval_expressions)
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `RGF` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  rgf: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+function printToConsole(message) {
+  console.log(message);
+}
+
+printToConsole("Hello World"); // "Hello World"
+---
+
+---
+
+
+    
+      #### Independent Functions
+
+      RGF will only transform functions that are independent of their scope. A function referencing a variable outside of its scope disqualifies it from being transformed.
+
+      
+      If you enable [Flatten](./flatten), you can isolate functions from their original scope so then RGF can then apply on them. This is the recommended way to use RGF.
+      
+---
+
+    
+#### Custom Implementation
+###### `options.rgf(fnName)`
+
+Control which functions are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `fnName` | `string` | The function name proposed to be changed. |
+
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  rgf: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): No
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    ---
+##### Other notes
+      
+      RGF only applies to:
+
+      - Function Declarations or Expressions
+      - Cannot be async / generator function
+      - Cannot rely on outside-scoped variables
+      - Cannot use `this`, `arguments`, or `eval`
+      
+
+    
+---
+
+##### See Also
+
+- [Flatten](./flatten)
+- [String Concealing](./stringConcealing)
+    

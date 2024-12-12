@@ -1,0 +1,116 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/stringConcealing", "group": "Options"}
+
+# String Concealing
+
+
+      
+### String Concealing
+
+String Concealing involves encoding strings to conceal plain-text values.
+
+-> Option name: `"stringConcealing"`
+-> Option values: `true/false/0-1/Function`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `String Concealing` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  stringConcealing: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+var str = "Hello, World!";
+console.log(str);
+      
+---
+
+---
+
+
+    
+      #### Custom String Encodings
+
+      [Custom String Encodings](./customStringEncodings) allows you to define your own string encoding/decoding functions.
+      
+---
+
+    
+#### Custom Implementation
+###### `options.stringConcealing(strValue)`
+
+Control which strings are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `strValue` | `string` | The string proposed to be encrypted. |
+---{header: "Options.js"}
+
+module.exports = {
+  target: "node",
+
+  // Custom String Concealing
+  // Always encrypt API endpoints
+  stringConcealing: (str) => {
+    if (str.includes("https://api-example.com/")) {
+      return true;
+    }
+
+    // 60% for other strings
+    return Math.random() < 0.6;
+  },
+};
+---
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  stringConcealing: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): Yes 
+
+
+    
+
+    
+    

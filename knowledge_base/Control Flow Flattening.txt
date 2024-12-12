@@ -1,0 +1,145 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/controlFlowFlattening", "group": "Options"}
+
+# Control Flow Flattening
+
+
+      
+### Control Flow Flattening
+
+Control-flow Flattening hinders program comprehension by creating convoluted switch statements.
+
+**⚠️ Significantly impacts performance, use sparingly!**
+
+-> Option name: `"controlFlowFlattening"`
+-> Option values: `true/false/0-1`
+<br>
+> [!WARNING]
+> Requires Non-Strict Mode
+> The obfuscated code will not work properly in Strict Mode.
+> You can use the [Pack](./Pack) option to bypass Strict Mode constraints.
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Control Flow Flattening` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  controlFlowFlattening: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+function countTo(num){
+  for ( var i = 1; i <= num; i++ ) {
+    console.log(i);
+  }
+}
+
+var number = 10;
+countTo(number); // 1,2,3,4,5,6,7,8,9,10
+
+---
+
+---
+
+
+    
+#### Requires Non-Strict Mode
+
+Control Flow Flattening requires non-strict mode to work. This is because the `with` statement is used to conceal local scope variables.
+
+- It is recommended to enable the [Pack](./Pack) option when using Control Flow Flattening.
+
+#### Control Flow Flattening Process
+
+Control Flow Flattening transforms the code into a large, convoluted switch statement. This switch statement is intended to replicate the functionality of the 'goto' statement seen in other languages.
+
+The switch statement is designed to be difficult to follow, making it harder for reverse engineers to understand the program's flow.
+
+- Control Flow Flattening introduces dead code:
+
+- - Add fake chunks that are never reached
+- - Add fake jumps to really mess with deobfuscators ("irreducible control flow")
+- - Clone chunks but these chunks are never ran
+
+- Control Flow Flattening introduces opaque predicates:
+
+- - Add fake conditions that are always true or false
+
+- Control Flow Flattening mangles the scoped variables through the use of the `with` statement.
+
+- - This makes identifiers harder to track from static analysis tools.
+
+- Control Flow Flattening obfuscates IF-statements into equivalent switch-case statements.
+
+- Control Flow Flattening obfuscates certain eligible functions into equivalent switch-case statements.
+      
+---
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  controlFlowFlattening: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes (50%)
+- [Medium Preset](/docs/presets/medium): Yes (25%)
+- [Low Preset](/docs/presets/low): No 
+
+
+    ---
+
+##### Performance reduction
+
+Control Flow Flattening reduces the performance of your program. You should adjust the option `controlFlowFlattening` to be a percentage that is appropriate for your app.
+
+##### Other notes
+
+Control Flow Flattening only applies to:
+
+- Blocks of 3 statements or more
+
+    
+---
+
+##### See Also
+
+- [Pack](./pack)
+    

@@ -1,0 +1,107 @@
+Metadata: {"url": "https://js-confuser.com/docs/options", "group": "Options"}
+
+# All Options
+
+
+  ### All Options
+
+  JS-Confuser provides a wide range of options to customize the obfuscation process. Below is a list of all available options in the obfuscator.
+
+  - Remember, [presets](/docs/presets) can be used to quickly apply a set of options to the obfuscator.
+
+
+  
+---
+
+#### Build Settings
+
+| Option | Description |
+| [Target](/docs/options/target) | The execution context for your output. 
+| [Pack](/docs/options/pack) | Packs the output code into a single `Function()` call. Designed to escape strict mode constraints. 
+
+
+---
+
+#### Identifiers
+
+| Option | Description |
+| [Identifier Generator](/docs/options/identifierGenerator) | Determines how variables are renamed. 
+| [Rename Variables](/docs/options/renameVariables) | Determines if variables should be renamed. 
+| [Rename Globals](/docs/options/renameGlobals) | Renames top-level variables, turn this off for web-related scripts. **Enabled by default.** 
+| [Rename Labels](/docs/options/renameLabels) | Renames labeled control-flow statements, and removes unnecessary labels. **Enabled by default.** 
+| [Moved Declarations](/docs/options/movedDeclarations) | Moves variable declarations to the top of the context. 
+
+
+---
+
+#### Strings
+
+| Option | Description |
+| [String Compression](/docs/options/stringCompression) | String Compression uses zlib compression algorithm to compress strings. 
+| [String Concealing](/docs/options/stringConcealing) | String Concealing involves encoding strings to conceal plain-text values. 
+| [Custom String Encodings](/docs/options/customStringEncodings) | Custom String Encodings allows you to define your own string encoding/decoding functions. 
+| [String Encoding](/docs/options/stringEncoding) | String Encoding transforms a string into an encoded representation. 
+| [String Splitting](/docs/options/stringSplitting) | String Splitting splits your strings into multiple expressions. 
+
+
+---
+
+#### Data
+
+| Option | Description |
+| [Calculator](/docs/options/calculator) | Creates a calculator function to handle arithmetic and logical expressions. 
+| [Object Extraction](/docs/options/objectExtraction) | Extracts object properties into separate variables. 
+| [Global Concealing](/docs/options/globalConcealing) | Global Concealing hides global variables being accessed. 
+| [Shuffle](/docs/options/shuffle) | Shuffles the initial order of arrays. The order is brought back to the original during runtime. 
+| [Duplicate Literals Removal](/docs/options/duplicateLiteralsRemoval) | Duplicate Literals Removal replaces duplicate literals with a single variable name. 
+
+
+---
+
+#### Control-flow
+
+| Option | Description |
+| [Control Flow Flattening](/docs/options/controlFlowFlattening) | Control-flow Flattening hinders program comprehension by creating convoluted switch statements. 
+| [Dispatcher](/docs/options/dispatcher) | Creates a middleman function to process function calls. 
+| [Opaque Predicates](/docs/options/opaquePredicates) | An Opaque Predicate is a predicate(true/false) that is evaluated at runtime, this can confuse reverse engineers from understanding your code. 
+| [Dead Code](/docs/options/deadCode) | Randomly injects dead code. 
+| [AST Scrambler](/docs/options/astScrambler) | Semantically changes the AST to bypass automated tools. 
+
+
+---
+
+#### Functions
+
+| Option | Description |
+| [Variable Masking](/docs/options/variableMasking) | Local variables are consolidated into a rotating array. 
+| [Flatten](/docs/options/flatten) | Brings independent declarations to the highest scope. 
+| [RGF](/docs/options/rgf) | RGF (Runtime-Generated-Functions) creates executable code from strings. 
+
+
+---
+
+#### Lock
+
+| Option | Description |
+| [Domain Lock](/docs/options/domainLock) | Ensures the script can only execute on the specified domain. Set the Counter Measures option to control what happens if violated. 
+| [Start Date](/docs/options/startDate) | When the program is first able to be used. 
+| [End Date](/docs/options/endDate) | When the program is no longer able to be used. 
+| [Tamper Protection](/docs/options/tamperProtection) | Tamper Protection safeguards the runtime behavior from being altered by JavaScript pitfalls. 
+| [Self Defending](/docs/options/selfDefending) | Prevents the use of code beautifiers or formatters against your code. 
+| [Custom Locks](/docs/options/customLocks) | Customize the lock algorithm to your own implementation. 
+| [Integrity](/docs/options/integrity) | Integrity ensures the source code is unchanged. 
+| [Anti Debug](/docs/options/antiDebug) | Adds debugger statements throughout the code. 
+| [Countermeasures](/docs/options/countermeasures) | A custom callback function to invoke when a lock is triggered. 
+
+
+---
+
+#### Output
+
+| Option | Description |
+| [Hexadecimal Numbers](/docs/options/hexadecimalNumbers) | Uses the hexadecimal representation for numbers. 
+| [Compact](/docs/options/compact) | Remove's whitespace from the final output. 
+| [Minify](/docs/options/minify) | Minifies redundant code. 
+| [Preserve Function Length](/docs/options/preserveFunctionLength) | Preserves the original `function.length` property. 
+
+  

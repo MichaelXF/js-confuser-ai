@@ -1,0 +1,103 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/preserveFunctionLength", "group": "Options"}
+
+# Preserve Function Length
+
+
+      
+### Preserve Function Length
+
+Preserves the original `function.length` property.
+
+-> Option name: `"preserveFunctionLength"`
+-> Option values: `true/false`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Preserve Function Length` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  preserveFunctionLength: true,
+  preset: 'medium',
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+      function add(a, b){
+        return a + b;
+      }
+      
+      console.log(add.length); // 2
+      
+---
+
+---
+
+
+    
+      #### Preserving Function Length
+
+      The property `function.length` returns the number of arguments expected by the function. This property is read-only and cannot be changed.
+
+      The obfuscator will most likely change the function length property. This option preserves the original function length property by adding a subsequent assignment to mock the original length.
+      
+      #### Why This Matters
+
+      Some libraries and frameworks rely on the `function.length` property. If the property is changed, it can break the functionality of the library or framework. 
+      
+---
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  preserveFunctionLength: true,
+  preset: 'medium',
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): Yes 
+
+
+    
+
+    
+    

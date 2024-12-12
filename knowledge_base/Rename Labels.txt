@@ -1,0 +1,104 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/renameLabels", "group": "Options"}
+
+# Rename Labels
+
+
+      
+### Rename Labels
+
+Renames labeled control-flow statements, and removes unnecessary labels. **Enabled by default.**
+
+-> Option name: `"renameLabels"`
+-> Option values: `true/false/Function`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Rename Labels` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  renameLabels: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+      A: for(var i = 0; i < 10; i++) {
+        if (i % 2 === 0) {
+          continue A;
+        }
+        
+        B: {
+          console.log(i);
+          break B;
+        }
+      }
+      
+---
+
+---
+
+
+    
+
+    
+#### Custom Implementation
+###### `options.renameLabels(labelName)`
+
+Control which label names are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `labelName` | `string` | The label name proposed to be changed. |
+
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  renameLabels: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): Yes 
+
+
+    
+
+    
+    

@@ -1,0 +1,142 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/countermeasures", "group": "Options"}
+
+# Countermeasures
+
+
+      
+### Countermeasures
+
+A custom callback function to invoke when a lock is triggered.
+
+-> Option name: `"lock.countermeasures"`
+-> Option value: `string`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Countermeasures` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  lock: {
+    countermeasures: 'onTamperDetected',
+  },
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+      function onTamperDetected(){
+        throw new Error("The code has been tampered with!");
+      }
+      
+---
+
+---
+
+
+    
+#### Crash Process
+
+The default behavior is to crash the process This is done by an infinite loop to ensure the process becomes useless.
+
+```js
+while(true) {
+  // ...
+}
+```
+
+#### Custom Callback
+
+By setting countermeasures to a string, it can point to a callback to invoke when a lock is triggered. The countermeasures callback function can either be a local name or an external name.
+
+
+Examples:
+- `"onLockTriggered"`
+- `"window.onLockTriggered"`
+
+If the function is defined within the locked code, it must follow the local name rules.
+
+#### Local Name rules
+
+1. The function must be defined at the top-level of your program.
+2. The function must not rely on any scoped variables.
+3. The function cannot call functions outside it's context.
+
+These rules are necessary to prevent an infinite loop from occurring.
+
+#### Test your countermeasure
+
+##### Domain Lock:
+
+Try your code within DevTools while on another website.
+
+##### Time Lock:
+
+Try setting your machine time to before or past the allowed range.
+
+##### Integrity:
+
+Try changing a string within your code.
+      
+---
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  lock: {
+    countermeasures: 'onTamperDetected',
+  },
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): No
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+---
+
+##### See Also
+
+- [Integrity](./integrity)
+- [Tamper Protection](./tamperProtection)
+    

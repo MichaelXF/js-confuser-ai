@@ -1,0 +1,106 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/pack", "group": "Options"}
+
+# Pack
+
+
+      
+### Pack
+
+Packs the output code into a single `Function()` call. Designed to escape strict mode constraints.
+
+-> Option name: `"pack"`
+-> Option values: `true/false`
+<br>
+> [!WARNING]
+> Requires Eval
+> The obfuscated code will contain unsafe eval expressions.
+> The code will not work properly in [environments that have disabled eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#unsafe_eval_expressions)
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Pack` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  pack: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+// Strict mode JavaScript blocks eval() access to local variables
+var myVar = "Initial Value";
+eval((/* @js-confuser-var */ "myVar") + ' = "Modified Value"');
+
+console.log(myVar); // "Modified Value"
+      
+---
+
+---
+
+
+    
+      #### Bypass Strict Mode
+
+      The `Pack` option is designed to bypass strict mode constraints. This is achieved by wrapping the output code in a `Function()` call. This allows the code to be executed in a different context, where strict mode is not enforced.
+     
+
+      Several obfuscation techniques require non-strict mode JavaScript. These include:
+      
+      - With Statement (Control Flow Flattening)
+      - Eval scope access (Tamper Protection)
+      
+---
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  pack: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+    

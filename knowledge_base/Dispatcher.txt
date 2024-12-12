@@ -1,0 +1,97 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/dispatcher", "group": "Options"}
+
+# Dispatcher
+
+
+      
+### Dispatcher
+
+Creates a middleman function to process function calls.
+
+-> Option name: `"dispatcher"`
+-> Option values: `true/false/0-1/Function`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Dispatcher` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  dispatcher: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+function print(x){
+  console.log(x);
+}
+
+print("Hello World"); // "Hello World"
+---
+
+---
+
+
+    
+
+    
+#### Custom Implementation
+###### `options.dispatcher(fnName)`
+
+Control which functions are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `fnName` | `string` | The function name proposed to be changed. |
+
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  dispatcher: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes (50%)
+- [Low Preset](/docs/presets/low): Yes (25%) 
+
+
+    
+
+    
+    

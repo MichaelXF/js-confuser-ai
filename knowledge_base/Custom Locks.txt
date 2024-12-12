@@ -1,0 +1,144 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/customLocks", "group": "Options"}
+
+# Custom Locks
+
+
+      
+### Custom Locks
+
+Customize the lock algorithm to your own implementation.
+
+-> Option name: `"lock.customLocks"`
+-> Option values: `true/false/0-1`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Custom Locks` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  lock: {
+    countermeasures: 'countermeasures',
+    customLocks: [
+      {
+        code: `
+              function checkChrome(){
+                return navigator.userAgent.includes("Chrome")
+              }
+
+              if(!checkChrome()){
+                {countermeasures}
+              }
+              `,
+        percentagePerBlock: 0.5,
+        maxCount: 25,
+        minCount: 1,
+      },
+    ],
+  },
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+      function countermeasures(){
+        throw new Error("Invalid browser!");
+      }
+      console.log("This only runs in Chrome!");
+      
+---
+
+---
+
+
+    
+      #### Custom Locks API
+
+      Custom Locks allow you to define your own lock algorithm. These locks will be randomly sprinkled throughout the code. 
+      
+      
+      The properties of the type `Custom Lock` are:
+
+      | Property | Type | Description |
+      | `code` | `string` | Template lock code that must contain '{countermeasures}'. |
+      | `percentagePerBlock` | `number` | The percentage of blocks that will contain the lock. |
+      | `maxCount` | `number` | The maximum number of times the lock can be used. (Default = 25) |
+      | `minCount` | `number` | The minimum number of times the lock can be used. (Default = 1) |
+      
+---
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  lock: {
+    countermeasures: 'countermeasures',
+    customLocks: [
+      {
+        code: `
+              function checkChrome(){
+                return navigator.userAgent.includes("Chrome")
+              }
+
+              if(!checkChrome()){
+                {countermeasures}
+              }
+              `,
+        percentagePerBlock: 0.5,
+        maxCount: 25,
+        minCount: 1,
+      },
+    ],
+  },
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): No
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+---
+
+##### See Also
+
+- [Countermeasures](/docs/options/countermeasures)
+    

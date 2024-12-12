@@ -1,0 +1,105 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/compact", "group": "Options"}
+
+# Compact
+
+
+      
+### Compact
+
+Remove's whitespace from the final output.
+
+-> Option name: `"compact"`
+-> Option values: `true/false`
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Compact` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  compact: true,
+  renameVariables: false,
+  minify: true,
+};
+===END OPTIONS===
+/**
+ * Computes the nth Fibonacci number iteratively
+ * @param {number} num
+ * @returns {number} The nth Fibonacci number
+ */
+function fibonacci(num) {
+  var a = 0,
+    b = 1,
+    c = num;
+  while (num-- > 1) {
+    c = a + b;
+    a = b;
+    b = c;
+  }
+  return c;
+}
+
+// Print the first 25 Fibonacci numbers
+for (var i = 1; i <= 25; i++) {
+  console.log(i, fibonacci(i));
+}
+      
+---
+
+---
+
+
+    
+
+    
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  compact: true,
+  renameVariables: false,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): Yes
+- [Medium Preset](/docs/presets/medium): Yes
+- [Low Preset](/docs/presets/low): Yes 
+
+
+    
+
+    
+    

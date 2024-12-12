@@ -1,0 +1,178 @@
+Metadata: {"url": "https://js-confuser.com/docs/options/tamperProtection", "group": "Options"}
+
+# Tamper Protection
+
+
+      
+### Tamper Protection
+
+Tamper Protection safeguards the runtime behavior from being altered by JavaScript pitfalls.
+
+**⚠️ Tamper Protection requires eval and ran in a non-strict mode environment!**
+
+- **This can break your code.**
+- **Due to the security concerns of arbitrary code execution, you must enable this yourself.**
+
+
+-> Option name: `"lock.tamperProtection"`
+-> Option values: `true/false/Function`
+<br>
+> [!WARNING]
+> Requires Non-Strict Mode
+> The obfuscated code will not work properly in Strict Mode.
+> You can use the [Pack](./Pack) option to bypass Strict Mode constraints.
+
+
+> [!WARNING]
+> Requires Eval
+> The obfuscated code will contain unsafe eval expressions.
+> The code will not work properly in [environments that have disabled eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#unsafe_eval_expressions)
+
+---
+
+      
+
+    
+
+    
+#### Input / Output
+
+This example showcases how `Tamper Protection` transforms the code. Try it out by changing the input code and see changes apply in real-time.
+
+---{ header: "Input.js", language: "javascript", live: true, options: true }
+// This file is evaluated as JavaScript. You can use JavaScript here.
+// Learn more: https://js-confuser.com/docs/getting-started/playground#jsconfuser-ts
+
+module.exports = {
+  target: 'browser',
+  lock: {
+    tamperProtection: true,
+    countermeasures: 'onTamperDetected',
+  },
+  globalConcealing: true,
+  renameVariables: true,
+  compact: false,
+  minify: true,
+};
+===END OPTIONS===
+
+      function onTamperDetected(){
+        throw new Error('Tampering detected!');
+      }
+
+      fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data); // Array of users with names, usernames, and emails
+        });
+      
+---
+
+---
+
+
+    
+#### Improves Global Concealing
+
+Tamper Protection with `Global Concealing` can detect at runtime if certain global functions have been monkey-patched. The following code exemplifies this:
+
+##### Native function check
+
+---js
+var _fetch = fetch;
+fetch = (...args)=>{
+  console.log("Fetch request intercepted!", ...args)
+  return _fetch(...args)
+}
+---
+
+This monkey-patch can be detected by inspecting the `fetch.toString()` value:
+
+---js
+// Untampered
+fetch.toString() // "function fetch() { [native code] }"
+
+
+// Tampered
+fetch.toString()  // "(...args)=>{\n  console.log("Fetch request intercepted!", ...args)\n  return _fetch(...args)\n}"
+---
+
+Certain global functions are checked before each invocation to ensure that (1) the arguments cannot be intercepted and (2) their behavior cannot be altered.
+
+##### Stealthy global
+
+A direct `eval` invocation can access the local scope, only if it has not been redefined.
+
+---js
+let root = {};
+eval("root=this"); // Window {window: ...}
+---
+
+This method securely obtains the real global object for both the browser and NodeJS. Properties on the global object can still be changed however.
+
+---
+
+#### Disallows Strict Mode
+
+Tamper Protection requires the script to run in non-strict mode. Detection of the script in Strict Mode will be considered tampering. You can control the tampering response using the `lock.countermeasures` option.
+      
+---
+
+    
+#### Custom Implementation
+###### `options.lock.tamperProtection(fnName)`
+
+Control which functions are changed. Returns a `boolean`.
+| Parameter | Type | Description |
+| `fnName` | `string` | The function name proposed receive native check protection. |
+
+
+---
+    
+    
+#### Usage Example
+
+The provided code example will obfuscate the file `input.js` and write the output to a file named `output.js`.
+
+---{header: "Usage Example", language: "javascript"}
+import JSConfuser from "js-confuser";
+import {readFileSync, writeFileSync} from "fs";
+
+// Read input code
+const sourceCode = readFileSync("input.js", "utf8");
+const options = {
+  target: 'browser',
+  lock: {
+    tamperProtection: true,
+    countermeasures: 'onTamperDetected',
+  },
+  globalConcealing: true,
+};
+
+JSConfuser.obfuscate(sourceCode, options).then((result)=>{
+  // Write output code
+  writeFileSync("output.js", result.code);
+}).catch(err=>{
+  // Error occurred
+  console.error(err);  
+});
+---
+
+---
+
+##### Enabled In
+
+- [High Preset](/docs/presets/high): No
+- [Medium Preset](/docs/presets/medium): No
+- [Low Preset](/docs/presets/low): No 
+
+
+    
+
+    
+---
+
+##### See Also
+
+- [Countermeasures](/docs/options/countermeasures)
+    

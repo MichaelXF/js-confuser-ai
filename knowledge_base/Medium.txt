@@ -1,0 +1,39 @@
+Metadata: {"url": "https://js-confuser.com/docs/presets/medium", "group": "Presets"}
+
+# Medium
+
+
+    ### Medium Preset
+
+    -> Option name: `"preset"`
+
+    -> Option value: `"medium"`
+
+    ---{ header: "Preset.json", language: "json" }
+    {
+  "target": "node",
+  "preset": "medium",
+  "calculator": true,
+  "compact": true,
+  "hexadecimalNumbers": true,
+  "controlFlowFlattening": 0.25,
+  "deadCode": 0.1,
+  "dispatcher": 0.5,
+  "duplicateLiteralsRemoval": 0.5,
+  "globalConcealing": true,
+  "identifierGenerator": "randomized",
+  "minify": true,
+  "movedDeclarations": true,
+  "objectExtraction": true,
+  "renameVariables": true,
+  "renameGlobals": true,
+  "shuffle": true,
+  "variableMasking": 0.5,
+  "stringConcealing": true,
+  "stringSplitting": 0.25,
+  "astScrambler": true,
+  "pack": true
+}
+    ---
+
+    
