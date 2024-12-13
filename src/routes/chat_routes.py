@@ -85,18 +85,30 @@ async def websocket_endpoint(websocket: WebSocket):
 
     try:
         while True:
+            # At that point just use ChatGPT
+            if len(messages) > 100:
+                websocket.close()
+                break
+
             # Receive a message from the client
             user_event = await websocket.receive_json()
 
             user_event_id = user_event["id"]
             user_message = user_event["content"]
 
+            # Type validation
             if type(user_message) != str or type(user_event_id) != str:
                 await websocket.send_json({"error": "Invalid request"})
                 continue
 
-            messages.append({"role": "user", "content": user_message})
+            # Length validation
+            if len(user_message) > 5000 or len(user_event_id) > 10:
+                await websocket.send_json(
+                    {"error": "Message is too long. Maximum length is 5000 characters."}
+                )
+                continue
 
+            messages.append({"role": "user", "content": user_message})
             full_response = ""
 
             # Use the `phidata` agent to generate a response
@@ -113,8 +125,10 @@ async def websocket_endpoint(websocket: WebSocket):
                     {"id": user_event_id, "content": delta.content}
                 )
 
+            # Tell websocket that generating is done
             await websocket.send_json({"done": True})
 
+            # Add to their message history
             messages.append({"role": "assistant", "content": full_response})
 
             print(user_message)
@@ -125,3 +139,4 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except Exception as e:
         print("An error occurred:", e)
+        websocket.close()

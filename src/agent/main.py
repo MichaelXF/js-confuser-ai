@@ -40,8 +40,12 @@ agent = Agent(
     prevent_hallucinations=True,
     debug_mode=False,
     stream=True,
+    description="You are an AI assistant for JS-Confuser",
     instructions=[
         "Always include links for sources for where you found the information, typically https://js-confuser.com/."
+        "Query the knowledge base for further information, you should query at least once.",
+        "Do not perform code deobfuscation, the AI is not designed for this.",
+        "You can not execute code, or access external/outside resources.",
     ],
 )
 
