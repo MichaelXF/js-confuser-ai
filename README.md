@@ -19,10 +19,14 @@ This projects powers the AI chat services for [JS-Confuser.com](https://js-confu
 > - 1 million TPM (tokens per minute)
 > - 1,500 RPD (requests per day)
 
-## Requirements
+## Internals
 
-- Knowledge database of the JS-Confuser Doc's MD files
+- [Phidata](https://www.phidata.com/) AI agent for creating a RAG (Retrieval-Augmented Generation) chatbot
+- FastAPI WebSocket for smoothly streaming generated responses back to client
+- Knowledge database, storing the JS-Confuser Doc's MD files
 - PostgreSQL + PGVector for storing embeddings
+
+## Requirements
 
 Requires Python >= 3.8
 Requires PostgreSQL >= 16, with PGVector installed

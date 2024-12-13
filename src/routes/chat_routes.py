@@ -14,7 +14,7 @@ class GenerateResponseModel(BaseModel):
 
 
 @router.get("/v1/chat/generate")
-async def generate_response(message: str):
+async def generate_response(message: str) -> GenerateResponseModel:
     if not is_development():
         raise HTTPException(
             status_code=403, detail="This route is reserved for development purposes."
@@ -25,6 +25,13 @@ async def generate_response(message: str):
 
 
 T = TypeVar("T")
+
+
+def next_or_none(iterator):
+    try:
+        return next(iterator)
+    except StopIteration:
+        return None
 
 
 async def async_iter_over_sync_gen(
@@ -49,14 +56,18 @@ async def async_iter_over_sync_gen(
     while True:
         try:
             val = await loop.run_in_executor(
-                None, next, iterator
+                None, next_or_none, iterator
             )  # Pass iterator directly, no need for None
+            if val is None:
+                break
+
             yield val
         except StopIteration:
             break
         except Exception as e:  # Catch all errors for robustness
-            if str(e).startswith(
+            if (
                 "StopIteration interacts badly with generators and cannot be raised into a Future"
+                in str(e)
             ):
                 break
 
@@ -111,3 +122,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect:
         print("WebSocket disconnected")
+
+    except Exception as e:
+        print("An error occurred:", e)

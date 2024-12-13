@@ -80,3 +80,6 @@ dmypy.log
 # Ignore profiling data
 *.prof
 *.profraw
+
+# Where SSH copy files script is located
+devops/

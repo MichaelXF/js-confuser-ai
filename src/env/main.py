@@ -13,6 +13,7 @@ def is_production():
 
 
 def init_env():
+    global mode
     load_dotenv()
 
     mode = getenv("MODE")

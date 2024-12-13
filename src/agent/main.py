@@ -1,7 +1,8 @@
+import sys
+from os import getenv
 from phi.agent import Agent
 from phi.knowledge.text import TextKnowledgeBase
 from phi.vectordb.pgvector import PgVector
-
 
 from agent.gem_model import model, model_embedder
 
@@ -11,7 +12,7 @@ from agent.gem_model import model, model_embedder
 
 vector_db = PgVector(
     table_name="chat_documents",
-    db_url="postgresql+psycopg://username:password@localhost:5433/ai_db",
+    db_url=getenv("DATABASE_URL"),
     embedder=model_embedder,
 )
 
@@ -21,9 +22,12 @@ knowledge_base = TextKnowledgeBase(
     num_documents=5,
 )
 
+# Use the --index flag to recreate the embeddings
+if len(sys.argv) > 1 and sys.argv[1] == "--index":
+    print("Indexing knowledge base...")
 
-# Load the knowledge base: Comment out after first run
-# knowledge_base.load(recreate=True, upsert=True)
+    # Load the knowledge base: Comment out after first run
+    knowledge_base.load(recreate=True, upsert=True)
 
 agent = Agent(
     name="JS-Confuser AI",

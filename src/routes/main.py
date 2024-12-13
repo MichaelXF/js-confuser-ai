@@ -8,13 +8,15 @@ def init_api() -> FastAPI:
     app = FastAPI()
 
     # React CORS enable for development purposes
-    if is_development():
+    if True:
+
+        allow_origins = ["*"] if is_development() else ["https://js-confuser.com"]
+
+        print("Allowing CORS for origins:", allow_origins)
         # Allow CORS middleware
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=[
-                "*"
-            ],  # Replace "*" with a list of allowed origins for stricter security
+            allow_origins=allow_origins,  # Replace "*" with a list of allowed origins for stricter security
             allow_credentials=True,
             allow_methods=[
                 "*"
