@@ -1,5 +1,7 @@
 # JS-Confuser AI Backend
 
+![Image of AI conversation](./images/image.png)
+
 This projects powers the AI chat services for [JS-Confuser.com](https://js-confuser.com)!
 
 - Powered by Google's Gemini AI:
@@ -54,12 +56,34 @@ pip install -r requirements.txt
 | `google-generativeai` | Gemini Model APIs                                      |
 | `openai`, `ollama`    | _(Optional)_ Model APIs for choosing a different model |
 
+## Setup PostgreSQL
+
+**Setup new database and enable PGVector**
+
+```sql
+# psql -U postgres
+
+SELECT version(); # Recommended 17
+SHOW port; # Defaults to 5432
+
+# Create new user & database for our app
+CREATE USER username WITH PASSWORD 'password';
+CREATE DATABASE ai_db;
+ALTER USER username WITH SUPERUSER;
+
+# Important: Enable PGVector in ai_db
+\c ai_db
+CREATE EXTENSION vector;
+```
+
 ## First-Time Initialization
 
 **Create your knowledge base**
+
 Drop any `.txt`, `.md` files into the `knowledge_base` folder. This will be the data your AI agent can query on. In JS-Confuser's case, I simply exported the entire Docs as individual markdown files.
 
 **Index the knowledge base**
+
 You must index your knowledge base by running the server with the `--index` flag. This will recreate the embeddings for your knowledge.
 
 ## Configure .env File
@@ -70,7 +94,7 @@ You will need to supply your `GEMINI_API_KEY` if you plan to use Gemini's API.
 .env
 MODE=development
 
-DATABASE_URL=postgresql+asyncpg://username:password@localhost:5433/ai_db
+DATABASE_URL=postgresql+psycopg://username:password@localhost:5432/ai_db
 
 # Recommend model choice
 GEMINI_API_KEY=
